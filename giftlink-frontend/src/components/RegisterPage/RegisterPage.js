@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 
 import './RegisterPage.css';
+import {urlConfig} from '../../config';
+import { useAppContext } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 function RegisterPage() {
 
@@ -10,9 +13,51 @@ function RegisterPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    // insert code here to create handleRegister function and include console.log
+    //Do these tasks inside the RegisterPage function, after the useState definition
+    const [showerr, setShowerr] = useState('');
+    const navigate = useNavigate();
+    const { setIsLoggedIn } = useAppContext();
+
+        // insert code here to create handleRegister function and include console.log
     const handleRegister = async () => {
         console.log("Register invoked")
+
+        try{
+            const response = await fetch(`${urlConfig.backendUrl}/api/auth/register`, {
+                //{{Insert code here}} //Task 6: Set method
+                method: 'POST',
+                //{{Insert code here}} //Task 7: Set headers
+                headers: {
+                    'content-type': 'application/json',
+                },
+                //{{Insert code here}} //Task 8: Set body to send user details
+                body: JSON.stringify({
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    password: password
+                })
+            });
+    
+            const json = await response.json();
+            if (json.authtoken) {
+                sessionStorage.setItem('auth-token', json.authtoken);
+                sessionStorage.setItem('name', firstName);
+                sessionStorage.setItem('email', json.email);
+                //insert code for setting logged in state
+                setIsLoggedIn(true);
+                //insert code for navigating to MainPAge
+                navigate('/app')
+            }
+            if (json.error) {
+                setShowerr(json.error);
+            }
+    
+    
+          }catch (e) {
+            console.log("Error fetching details: " + e.message);
+        }
+
     }
 
          return (
@@ -45,7 +90,7 @@ function RegisterPage() {
                     <div className="mb-4">
                         <label htmlFor="email" className="form label"> email</label>
                         <input id="email" 
-                        type="email" 
+                        type="text" 
                         className="form-control"
                         placeholder="Enter your email"
                         value={email}
@@ -62,7 +107,8 @@ function RegisterPage() {
                         onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
-
+                    {/* show error here */}
+                    <div className="text-danger"> {showerr} </div>
                     {/* insert code here to create a button that performs the `handleRegister` function on click */}
                     <button className="btn btn-primary w-100 mb-3" onClick={handleRegister}>Register</button>
 
