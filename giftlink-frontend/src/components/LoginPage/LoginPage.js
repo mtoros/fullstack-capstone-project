@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './LoginPage.css';
 
 import {urlConfig} from '../../config';
@@ -26,7 +26,7 @@ function LoginPage() {
         console.log("Inside handleLogin");
         try{
           //first task
-        const response = await fetch(`/api/auth/login`, {
+        const res = await fetch(`${urlConfig.backendUrl}/api/auth/login`, {
              //{{Insert code here}} //Task 7: Set method
              method: 'POST',
              //{{Insert code here}} //Task 8: Set headers
@@ -41,8 +41,8 @@ function LoginPage() {
             })
        });
 
+       const json = await res.json();
        if (json.authtoken) {
-        const json = await res.json();
         sessionStorage.setItem('auth-token', json.authtoken);
         sessionStorage.setItem('name', json.userName);
         sessionStorage.setItem('email', json.userEmail);
@@ -82,9 +82,19 @@ function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
             />
-            <span style={{color:'red',height:'.5cm',display:'block',fontStyle:'italic',fontSize:'12px'}}>{incorrect}</span>
           </div>
-
+          <div className="mb-4">
+            <label htmlFor="password" className="form-label">Password</label>
+            <input
+                id="password"
+                type="password"
+                className="form-control"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => {setPassword(e.target.value);setIncorrect("")}}
+            />
+              <span style={{color:'red',height:'.5cm',display:'block',fontStyle:'italic',fontSize:'12px'}}>{incorrect}</span>
+          </div>
           {/* insert code here to create a button that performs the `handleLogin` function on click */}
           <button className="btn btn-primary w-100 mb-3" onClick={handleLogin}>Login</button>
                 <p className="mt-4 text-center">
