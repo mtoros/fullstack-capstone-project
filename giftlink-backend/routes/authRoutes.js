@@ -8,7 +8,6 @@ const connectToDatabase = require('../models/db');
 const router = express.Router();
 const dotenv = require('dotenv');
 const pino = require('pino');  // Import Pino logger
-const { body, validationResult } = require('express-validator');
 
 //Step 1 - Task 3: Create a Pino logger instance
 const logger = pino();  // Create a Pino logger instance
@@ -18,6 +17,7 @@ dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET;
 
 router.post('/register', async (req, res) => {
+    console.log("Registering starting.")
     try {
         // Task 1: Connect to `giftsdb` in MongoDB through `connectToDatabase` in `db.js`
         const db = await connectToDatabase();
@@ -27,6 +27,11 @@ router.post('/register', async (req, res) => {
 
         //Task 3: Check for existing email
         const existingEmail = await collection.findOne({email: req.body.email });
+        if (existingEmail) {
+            logger.error('Email id already exists');
+            return res.status(400).json({ error: 'Email id already exists' });
+        }
+        
 
         const salt = await bcryptjs.genSalt(10);
         const hash = await bcryptjs.hash(req.body.password, salt);
@@ -58,6 +63,7 @@ router.post('/register', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
+    console.log("I am here!")
     try {
         // Task 1: Connect to `giftsdb` in MongoDB through `connectToDatabase` in `db.js`.
         const db = await connectToDatabase();
