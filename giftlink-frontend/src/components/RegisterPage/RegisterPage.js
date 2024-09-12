@@ -24,27 +24,26 @@ function RegisterPage() {
 
                     {/* insert code here to create input elements for all the variables - firstName, lastName, email, password */}
                     <div className="mb-4">
-                        <label htmlFor="firstName" className="form label"> FirstName</label><br>
+                        <label htmlFor="firstName" className="form label"> FirstName</label>
                         <input id="firstName" 
                         type="text" 
                         className="form-control"
                         placeholder="Enter your firstName"
                         value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                        />
+                        onChange={(e) => setFirstName(e.target.value)}/>
                     </div>
                     <div className="mb-4">
-                        <label htmlFor="lastName" className="form label"> LastName</label><br>
+                        <label htmlFor="lastName" className="form label"> LastName</label>
                         <input id="lastName" 
                         type="text" 
                         className="form-control"
                         placeholder="Enter your lastName"
-                        value={firstName}
+                        value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
                         />
                     </div>
                     <div className="mb-4">
-                        <label htmlFor="email" className="form label"> email</label><br>
+                        <label htmlFor="email" className="form label"> email</label>
                         <input id="email" 
                         type="email" 
                         className="form-control"
@@ -54,12 +53,12 @@ function RegisterPage() {
                         />
                     </div>
                     <div className="mb-4">
-                        <label htmlFor="password" className="form label"> password</label><br>
+                        <label htmlFor="password" className="form label"> password</label>
                         <input id="password" 
                         type="password" 
                         className="form-control"
                         placeholder="Enter your password"
-                        value={email}
+                        value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>

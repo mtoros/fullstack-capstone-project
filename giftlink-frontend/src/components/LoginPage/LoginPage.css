@@ -28,6 +28,7 @@
 
 .login-card .text-primary {
     color: #0056b3;
+    width: fit-content;    
 }
 
 .login-card .text-secondary {

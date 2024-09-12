@@ -1,6 +1,7 @@
 .register-card {
     background-color: #fff;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    block-size: fit-content;
 }
 
 .register-card .form-label {

@@ -45,6 +45,7 @@ function SearchPage() {
         try {
             const response = await fetch(`${baseUrl}${queryParams}`);
             if (!response.ok) {
+                console.log(response);
                 throw new Error('Search failed');
             }
             const data = await response.json();
