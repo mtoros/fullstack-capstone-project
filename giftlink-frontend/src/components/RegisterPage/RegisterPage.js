@@ -21,7 +21,6 @@ function RegisterPage() {
         // insert code here to create handleRegister function and include console.log
     const handleRegister = async () => {
         console.log("Register invoked")
-
         try{
             const response = await fetch(`${urlConfig.backendUrl}/api/auth/register`, {
                 //{{Insert code here}} //Task 6: Set method
@@ -90,7 +89,7 @@ function RegisterPage() {
                     <div className="mb-4">
                         <label htmlFor="email" className="form label"> email</label>
                         <input id="email" 
-                        type="text" 
+                        type="email" 
                         className="form-control"
                         placeholder="Enter your email"
                         value={email}

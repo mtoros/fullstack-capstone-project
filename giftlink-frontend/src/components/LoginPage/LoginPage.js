@@ -22,44 +22,41 @@ function LoginPage() {
     }, [navigate])
 
     // insert code here to create handleLogin function and include console.log
-    const handleLogin = async () => {
+    const handleLogin = async (e) => {
         console.log("Inside handleLogin");
+        e.preventDefault();
         try{
           //first task
-        const res = await fetch(`${urlConfig.backendUrl}/api/auth/login`, {
-             //{{Insert code here}} //Task 7: Set method
-             method: 'POST',
-             //{{Insert code here}} //Task 8: Set headers
-             headers: {
-              'content-type': 'application/json',
-              'Authorization': bearerToken ? `Bearer ${bearerToken}` : '', // Include Bearer token if available
+          const res = await fetch(`${urlConfig.backendUrl}/api/auth/login`, {
+            //{{Insert code here}} //Task 7: Set method
+            method: 'POST',
+            //{{Insert code here}} //Task 8: Set headers
+            headers: {
+            'content-type': 'application/json',
+            'Authorization': bearerToken ? `Bearer ${bearerToken}` : '', // Include Bearer token if available
             },
-             //{{Insert code here}} //Task 9: Set body to send user details
-             body: JSON.stringify({    
+              //{{Insert code here}} //Task 9: Set body to send user details
+              body: JSON.stringify({    
               email: email,
               password: password,
             })
-       });
+          });
 
-       const json = await res.json();
-       if (json.authtoken) {
-        sessionStorage.setItem('auth-token', json.authtoken);
-        sessionStorage.setItem('name', json.userName);
-        sessionStorage.setItem('email', json.userEmail);
-        setIsLoggedIn(true);
-        navigate('/app')
+          const json = await res.json();
+          if (json.authtoken) {
+            sessionStorage.setItem('auth-token', json.authtoken);
+            sessionStorage.setItem('name', json.userName);
+            sessionStorage.setItem('email', json.userEmail);
+            setIsLoggedIn(true);
+            navigate('/app')
           } else {
             document.getElementById("email").value="";
             document.getElementById("password").value="";
             setIncorrect("Wrong password. Try again.");
-        //Below is optional, but recommended - Clear out error message after 2 seconds
-            setTimeout(() => {
-              setIncorrect("");
-            }, 2000);
+          //Below is optional, but recommended - Clear out error message after 2 seconds
+            setTimeout(() => {setIncorrect("");}, 2000);
           }
-
-
-        }catch (e) {
+        } catch (e) {
           console.log("Error fetching details: " + e.message);
       }
     }
@@ -76,7 +73,7 @@ function LoginPage() {
             <label htmlFor="email" className="form-label">Email</label>
             <input
                 id="email"
-                type="text"
+                type="email"
                 className="form-control"
                 placeholder="Enter your email"
                 value={email}
